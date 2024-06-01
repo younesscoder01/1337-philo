@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/01 17:11:03 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:51:15 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,9 @@ int main(int argc, char const *argv[])
     
 
     if (argc != 6 && argc != 5)
-        return 1;
+        return ft_err_args(argc), 1;
     if (check_args(argv))
-    {
-        ft_err("THE ARGS UNCORRECT");
-        return 2;
-    }
+        return ft_err("THE ARGS UNCORRECT"), 2;
     param = malloc(sizeof(t_param));
     set_values(argv, param, argc);
     p_params(param);

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/01 17:04:40 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:48:26 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_param
 
 long	ft_ato_num(const char *nptr);
 int check_args(const char **av);
-void ft_err(char *str);
 void set_values(const char **av, t_param *param, int ac);
+
+void ft_err_args(int ac);
+void ft_err(char *str);
 #endif

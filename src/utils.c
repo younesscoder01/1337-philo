@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:28:17 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/01 17:11:26 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:47:44 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ long	ft_ato_num(const char *nptr)
 		nump++;
 	}
 	return (result);
-}
-
-void ft_err(char *str)
-{
-    write(2, "Error\n", 6);
-    printf("%s\n", str);
 }
 
 int check_args(const char **av)
