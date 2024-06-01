@@ -6,14 +6,14 @@
 #    By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/01 16:16:38 by ysahraou          #+#    #+#              #
-#    Updated: 2024/06/01 16:24:02 by ysahraou         ###   ########.fr        #
+#    Updated: 2024/06/01 16:29:31 by ysahraou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = philo
-SRC = src/philo.c
+SRC = src/philo.c src/utils.c
 OBJ = $(SRC:.c=.o)
 RM = rm -rf
 
