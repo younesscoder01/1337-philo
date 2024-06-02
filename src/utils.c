@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:28:17 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/01 17:47:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:06:57 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,20 @@ int check_args(const char **av)
     return (0);
 }
 
-void set_values(const char **av, t_param *param, int ac)
+t_data *set_values(const char **av, int ac)
 {
-    param->n_of_philo = ft_ato_num(av[1]);
-    param->t_to_die = ft_ato_num(av[2]);
-    param->t_to_eat = ft_ato_num(av[3]);
-    param->t_to_sleep = ft_ato_num(av[4]);
+    t_data *d;
+
+    d = malloc(sizeof(t_data));
+    d->n_of_philo = ft_ato_num(av[1]);
+    d->t_to_die = ft_ato_num(av[2]);
+    d->t_to_eat = ft_ato_num(av[3]);
+    d->t_to_sleep = ft_ato_num(av[4]);
+    if (0 == d->n_of_philo || 0 == d->t_to_die || 0 == d->t_to_eat || 0 == d->t_to_sleep)
+        return free(d), NULL;
     if (ac == 6)
-        param->n_must_eat = ft_ato_num(av[5]);
+        d->n_must_eat = ft_ato_num(av[5]);
     else
-        param->n_must_eat = 0;
+        d->n_must_eat = 0;
+    return (d);
 }
