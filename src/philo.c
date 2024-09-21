@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/02 17:06:34 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/21 12:36:52 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void p_datas(t_data *p)
 int main(int argc, char const *argv[])
 {
     t_data *data;
-    
 
     if (argc != 6 && argc != 5)
         return ft_err_args(argc), 1;
