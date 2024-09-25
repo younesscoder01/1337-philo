@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/23 15:16:36 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:26:52 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ typedef struct			s_philo
 	int					full;
 	bool				*died;
 	pt_mt				*died_m;
+	pt_mt				*id_m;
+	pt_mt				*last_meal_m;
+	pt_mt				*full_m;
+	pt_mt				*start;
 	pt_mt				*l_fork;
 	pt_mt				*r_fork;
 }						t_philo;

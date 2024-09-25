@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/23 15:33:14 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:02:04 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,36 @@ time_t get_time_millsec(void)
     return ((current_time.tv_sec * 1000) +  (current_time.tv_usec / 1000));
 }
 
+time_t get_start(t_philo *philo)
+{
+    time_t ret;
+    
+    pthread_mutex_lock(philo->start);
+    ret =  philo->start_t;
+    pthread_mutex_unlock(philo->start);
+    return (ret);
+}
+
+int get_id(t_philo *philo)
+{
+    int ret;
+    
+    pthread_mutex_lock(philo->id_m);
+    ret = philo->id;
+    pthread_mutex_unlock(philo->id_m);
+    return (ret);
+}
+
+int get_last_meal(t_philo *philo)
+{
+    int ret;
+    
+    pthread_mutex_lock(philo->last_meal_m);
+    ret = philo->last_meal;
+    pthread_mutex_unlock(philo->last_meal_m);
+    return (ret);
+}
+
 void *lmaout(void *ph)
 {
     int i;
@@ -51,10 +81,10 @@ void *lmaout(void *ph)
                 j++;
             if (philo[0].n_of_philo == j)
                 return NULL;
-            if ((get_time_millsec() - philo->start_t) - philo[i].last_meal >= philo->t_to_die)
+            if ((get_time_millsec() - get_start(&philo[i])) - get_last_meal(&philo[i]) >= philo->t_to_die)
             {
                 pthread_mutex_lock(philo->died_m);
-                printf("\033[0;31m%ld %i died\n\033[0m", get_time_millsec() - philo[i].start_t, philo[i].id);
+                printf("\033[0;31m%ld %i died\n\033[0m", get_time_millsec() - get_start(&philo[i]), get_id(&philo[i]));
                 *philo[i].died = 1;
                 pthread_mutex_unlock(philo->died_m);
                 return (NULL);
@@ -68,7 +98,7 @@ void *lmaout(void *ph)
 void print_fork(t_philo *philo)
 {
     if (!check_died(philo) && check_meals(philo))
-        printf("\033[0;33m%ld %i has taken a fork\n\033[0m", get_time_millsec() - philo->start_t, philo->id);
+        printf("\033[0;33m%ld %i has taken a fork\n\033[0m", get_time_millsec() - philo->start_t, get_id(philo));
 }
 
 int check_died(t_philo *philo)
@@ -83,12 +113,16 @@ int check_died(t_philo *philo)
 
 int check_meals(t_philo *philo)
 {
+    bool ret;
+
+    ret = 1;
     if (philo->n_must_eat > 0)
     {
-        if (philo->n_must_eat == philo->full)
-            return (0);
+        pthread_mutex_lock(philo->full_m);
+        ret = !(philo->n_must_eat == philo->full);
+        pthread_mutex_unlock(philo->full_m);
     }
-    return (1);
+    return (ret);
 }
 
 void *routine(void *ph)
@@ -97,39 +131,32 @@ void *routine(void *ph)
 
     while (!check_died(philo) && check_meals(philo))
     {
-        if (philo->id % 2 == 0)
-            usleep(100);
-        if (philo->id % 2 == 0)
-        {
-            pthread_mutex_lock(philo->l_fork);
-            print_fork(philo);
-            pthread_mutex_lock(philo->r_fork);
-            print_fork(philo);
-        }
-        else
-        {
-            pthread_mutex_lock(philo->r_fork);
-            print_fork(philo);
-            pthread_mutex_lock(philo->l_fork);
-            print_fork(philo);
-        }
-    
+        if (get_id(philo) % 2 != 0)
+            usleep(1000);
+        pthread_mutex_lock(philo->r_fork);
+        print_fork(philo);
+        pthread_mutex_lock(philo->l_fork);
+        print_fork(philo);
         if (!check_died(philo) && check_meals(philo))
         {
-            printf("\033[0;32m%ld %i is eating\n\033[0m", get_time_millsec() - philo->start_t, philo->id);
-            philo->last_meal = get_time_millsec() - philo->start_t;
+            printf("\033[0;32m%ld %i is eating\n\033[0m", get_time_millsec() - get_start(philo), get_id(philo));
+            pthread_mutex_lock(philo->last_meal_m);
+            philo->last_meal = get_time_millsec() - get_start(philo);
+            pthread_mutex_unlock(philo->last_meal_m);
+            pthread_mutex_lock(philo->full_m);
             philo->full++;
+            pthread_mutex_unlock(philo->full_m);
             sleep_m(philo->t_to_eat);
         }
         pthread_mutex_unlock(philo->r_fork);
         pthread_mutex_unlock(philo->l_fork);
         if (!check_died(philo) && check_meals(philo))
         {
-            printf("\033[0;35m%ld %i is sleeping\n\033[0m", get_time_millsec() - philo->start_t, philo->id);
+            printf("\033[0;35m%ld %i is sleeping\n\033[0m", get_time_millsec() - get_start(philo), get_id(philo));
             sleep_m(philo->t_to_sleep);
         }
         if (!check_died(philo) && check_meals(philo))
-            printf("\033[0;34m%ld %i  is thinking\n\033[0m", get_time_millsec() - philo->start_t, philo->id);
+            printf("\033[0;34m%ld %i  is thinking\n\033[0m", get_time_millsec() - get_start(philo), get_id(philo));
     }
     return NULL;
 }
@@ -138,15 +165,33 @@ void    init_data(t_philo *ph, t_data *data)
 {
     int i;
     bool *died;
-
+    pt_mt *died_m;
+    pt_mt *start;
+    pt_mt *id_m;
+    pt_mt *last_meal_m;
+    pt_mt *full_m;
+    
     died = malloc(sizeof(bool));
     *died = 0;
+    died_m = malloc(sizeof(pt_mt));
+    start = malloc(sizeof(pt_mt));
+    id_m = malloc(sizeof(pt_mt));
+    last_meal_m = malloc(sizeof(pt_mt));
+    full_m = malloc(sizeof(pt_mt));
+    pthread_mutex_init(died_m, 0);
+    pthread_mutex_init(start, 0);
+    pthread_mutex_init(id_m, 0);
+    pthread_mutex_init(last_meal_m, 0);
+    pthread_mutex_init(full_m, 0);
     i = 0;
     while (data->n_of_philo > i)
     {
         ph[i].died = died;
-        ph[i].died_m = malloc(sizeof(pt_mt));
-        pthread_mutex_init(ph[i].died_m, 0);
+        ph[i].died_m = died_m;
+        ph[i].start = start;
+        ph[i].id_m = id_m;
+        ph[i].last_meal_m = last_meal_m;
+        ph[i].full_m = full_m;
         ph[i].l_fork = malloc(sizeof(pt_mt));
         ph[i].r_fork = malloc(sizeof(pt_mt));
         pthread_mutex_init(ph[i].l_fork, 0);
