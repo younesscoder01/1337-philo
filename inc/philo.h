@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/21 19:14:30 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:16:36 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ typedef struct			s_philo
 	int					t_to_eat;
 	int					t_to_sleep;
 	int					n_must_eat;
+	int					full;
 	bool				*died;
+	pt_mt				*died_m;
 	pt_mt				*l_fork;
 	pt_mt				*r_fork;
 }						t_philo;
@@ -52,7 +54,8 @@ typedef struct			s_philo
 long					ft_ato_num(const char *nptr);
 int						check_args(const char **av);
 t_data					*set_values(const char **av, int ac);
-
+int check_died(t_philo *philo);
+int check_meals(t_philo *philo);
 void					ft_err_args(int ac);
 void					ft_err(char *str);
 #endif
