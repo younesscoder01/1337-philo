@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/25 16:02:04 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:12:36 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,21 @@ void *routine(void *ph)
     while (!check_died(philo) && check_meals(philo))
     {
         if (get_id(philo) % 2 != 0)
-            usleep(1000);
-        pthread_mutex_lock(philo->r_fork);
-        print_fork(philo);
-        pthread_mutex_lock(philo->l_fork);
-        print_fork(philo);
+            usleep(2000);
+        if (get_id(philo) % 2 == 0)
+        {
+            pthread_mutex_lock(philo->r_fork);
+            print_fork(philo);
+            pthread_mutex_lock(philo->l_fork);
+            print_fork(philo);
+        }
+        else
+        {
+            pthread_mutex_lock(philo->l_fork);
+            print_fork(philo);
+            pthread_mutex_lock(philo->r_fork);
+            print_fork(philo);
+        }
         if (!check_died(philo) && check_meals(philo))
         {
             printf("\033[0;32m%ld %i is eating\n\033[0m", get_time_millsec() - get_start(philo), get_id(philo));
