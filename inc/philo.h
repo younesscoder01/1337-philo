@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/25 18:10:06 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:30:04 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 
 typedef pthread_mutex_t	t_mt;
 
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define WHITE "\033[0;37m"
+#define BLUE "\033[0;34m"
 typedef struct s_data
 {
 	int					n_of_philo;

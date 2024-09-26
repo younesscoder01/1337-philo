@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3.c                                           :+:      :+:    :+:   */
+/*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:29:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/26 09:53:09 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:29:32 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_sleep(t_philo *philo)
 {
 	if (!check_died(philo) && check_meals(philo))
 	{
-		printf("\033[0;36m%ld %i is sleeping\n\033[0m", get_time_millsec()
+		printf("%s%ld %i is sleeping\n", WHITE, get_time_millsec()
 			- philo->start_t, get_id(philo));
 		sleep_m(philo->t_to_sleep);
 	}
@@ -25,7 +25,7 @@ void	print_sleep(t_philo *philo)
 void	print_fork(t_philo *philo)
 {
 	if (!check_died(philo) && check_meals(philo))
-		printf("\033[0;33m%ld %i has taken a fork\n\033[0m", get_time_millsec()
+		printf("%s%ld %i has taken a fork\n", YELLOW, get_time_millsec()
 			- philo->start_t, get_id(philo));
 }
 
@@ -57,7 +57,7 @@ void	eat(t_philo *philo)
 {
 	if (!check_died(philo) && check_meals(philo))
 	{
-		printf("\033[0;32m%ld %i is eating\n\033[0m", get_time_millsec()
+		printf("%s%ld %i is eating\n", GREEN, get_time_millsec()
 			- get_start(philo), get_id(philo));
 		pthread_mutex_lock(philo->last_meal_m);
 		philo->last_meal = get_time_millsec() - get_start(philo);

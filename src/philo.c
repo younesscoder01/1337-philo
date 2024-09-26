@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/26 09:50:00 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:31:11 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*checker(void *ph)
 				- get_last_meal(&philo[i]) >= philo->t_to_die)
 			{
 				pthread_mutex_lock(philo->died_m);
-				printf("\033[0;31m%ld %i died\n\033[0m", get_time_millsec()
+				printf("%s%ld %i died\n", RED, get_time_millsec()
 					- get_start(&philo[i]), get_id(&philo[i]));
 				*philo[i].died = 1;
 				pthread_mutex_unlock(philo->died_m);
@@ -82,7 +82,7 @@ void	*routine(void *ph)
 	{
 		if (philo->n_of_philo == 1)
 		{
-			printf("\033[0;33m%ld %i has taken a fork\n\033[0m",
+			printf("%s%ld %i has taken a fork\n", YELLOW,
 				get_time_millsec() - philo->start_t, get_id(philo));
 			sleep_m(philo->t_to_die);
 			break ;
@@ -93,7 +93,7 @@ void	*routine(void *ph)
 		pthread_mutex_unlock(philo->r_fork);
 		print_sleep(philo);
 		if (!check_died(philo) && check_meals(philo))
-			printf("\033[0;34m%ld %i  is thinking\n\033[0m", get_time_millsec()
+			printf("%s%ld %i  is thinking\n", BLUE, get_time_millsec()
 				- get_start(philo), get_id(philo));
 	}
 	return (NULL);
