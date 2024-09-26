@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/25 18:16:23 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:50:00 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@ void	*checker(void *ph)
 void	get_forks(t_philo *philo)
 {
 	if (get_id(philo) % 2 != 0)
-		usleep(2000);
+		usleep(1000);
 	if (get_id(philo) % 2 == 0)
 	{
-		pthread_mutex_lock(philo->r_fork);
-		print_fork(philo);
 		pthread_mutex_lock(philo->l_fork);
+		print_fork(philo);
+		pthread_mutex_lock(philo->r_fork);
 		print_fork(philo);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->l_fork);
-		print_fork(philo);
 		pthread_mutex_lock(philo->r_fork);
+		print_fork(philo);
+		pthread_mutex_lock(philo->l_fork);
 		print_fork(philo);
 	}
 }
@@ -89,8 +89,8 @@ void	*routine(void *ph)
 		}
 		get_forks(philo);
 		eat(philo);
-		pthread_mutex_unlock(philo->r_fork);
 		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
 		print_sleep(philo);
 		if (!check_died(philo) && check_meals(philo))
 			printf("\033[0;34m%ld %i  is thinking\n\033[0m", get_time_millsec()

@@ -6,12 +6,12 @@
 #    By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/01 16:16:38 by ysahraou          #+#    #+#              #
-#    Updated: 2024/09/25 18:09:19 by ysahraou         ###   ########.fr        #
+#    Updated: 2024/09/26 09:42:35 by ysahraou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread 
 NAME = philo
 SRC = src/philo.c src/utils.c src/err.c src/utils4.c src/utils2.c  src/utils3.c
 OBJ = $(SRC:.c=.o)

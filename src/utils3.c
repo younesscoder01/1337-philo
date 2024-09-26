@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:29:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/25 18:06:46 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:53:09 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	print_sleep(t_philo *philo)
 {
 	if (!check_died(philo) && check_meals(philo))
+	{
 		printf("\033[0;36m%ld %i is sleeping\n\033[0m", get_time_millsec()
 			- philo->start_t, get_id(philo));
+		sleep_m(philo->t_to_sleep);
+	}
 }
 
 void	print_fork(t_philo *philo)

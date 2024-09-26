@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:07:45 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/25 18:11:14 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/26 09:42:16 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	init_forks(t_philo *ph, t_data *data)
 	{
 		ph[i].died = died;
 		ph[i].l_fork = malloc(sizeof(t_mt));
-		ph[i].r_fork = malloc(sizeof(t_mt));
 		pthread_mutex_init(ph[i].l_fork, 0);
 		i++;
 	}
@@ -89,10 +88,21 @@ void	destroy_mtx(t_philo *ph, t_data *data)
 
 	i = 0;
 	while (data->n_of_philo > i)
-		pthread_mutex_destroy(ph[i++].l_fork);
+	{
+		pthread_mutex_destroy(ph[i].l_fork);
+		free(ph[i].l_fork);
+		i++;
+	}
 	pthread_mutex_destroy(ph[0].died_m);
 	pthread_mutex_destroy(ph[0].start);
 	pthread_mutex_destroy(ph[0].id_m);
 	pthread_mutex_destroy(ph[0].last_meal_m);
 	pthread_mutex_destroy(ph[0].full_m);
+	i = 0;
+	free(ph[0].died_m);
+	free(ph[0].died);
+	free(ph[0].start);
+	free(ph[0].id_m);
+	free(ph[0].last_meal_m);
+	free(ph[0].full_m);
 }
