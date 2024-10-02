@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/26 18:30:04 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/02 09:57:18 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void					sleep_m(time_t num);
 time_t					get_time_millsec(void);
 time_t					get_start(t_philo *philo);
 int						get_id(t_philo *philo);
-int						get_last_meal(t_philo *philo);
+time_t					get_last_meal(t_philo *philo);
 void					print_fork(t_philo *philo);
 void					print_sleep(t_philo *philo);
 void					eat(t_philo *philo);

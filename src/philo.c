@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/30 09:57:54 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:22:47 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,18 @@ void	*checker(void *ph)
 
 void	get_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->r_fork);
-	print_fork(philo);
 	pthread_mutex_lock(philo->l_fork);
 	print_fork(philo);
+	pthread_mutex_lock(philo->r_fork);
+	print_fork(philo);
 }
+
+void	put_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
+}
+
 
 void	*routine(void *ph)
 {
@@ -69,7 +76,7 @@ void	*routine(void *ph)
 	while (!check_died(philo) && check_meals(philo))
 	{
 		if (get_id(philo) % 2 == 0)
-			usleep(500);
+			usleep(1000);
 		if (philo->n_of_philo == 1)
 		{
 			printf("%s%ld %i has taken a fork\n", YELLOW,
@@ -79,13 +86,11 @@ void	*routine(void *ph)
 		}
 		get_forks(philo);
 		eat(philo);
-		pthread_mutex_unlock(philo->r_fork);
-		pthread_mutex_unlock(philo->l_fork);
+		put_forks(philo);
 		print_sleep(philo);
 		if (!check_died(philo) && check_meals(philo))
 			printf("%s%ld %i  is thinking\n", BLUE, get_time_millsec()
 				- get_start(philo), get_id(philo));
-		usleep(200);
 	}
 	return (NULL);
 }

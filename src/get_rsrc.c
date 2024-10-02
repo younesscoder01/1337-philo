@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   get_rsrc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:27:21 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/25 17:39:03 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/02 09:56:30 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	get_id(t_philo *philo)
 	return (ret);
 }
 
-int	get_last_meal(t_philo *philo)
+time_t	get_last_meal(t_philo *philo)
 {
-	int	ret;
+	time_t	ret;
 
 	pthread_mutex_lock(philo->last_meal_m);
 	ret = philo->last_meal;

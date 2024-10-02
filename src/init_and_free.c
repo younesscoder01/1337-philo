@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils4.c                                           :+:      :+:    :+:   */
+/*   init_and_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:07:45 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/26 09:42:16 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/02 09:23:37 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,19 @@ void	init_forks(t_philo *ph, t_data *data)
 	}
 }
 
+void swap_forks(t_philo *ph)
+{
+	t_mt *temp;
+
+	temp = NULL;
+	if (ph->id % 2 == 0)
+	{
+		temp = ph->r_fork;
+		ph->r_fork = ph->l_fork;
+		ph->l_fork = temp;
+	}
+}
+
 void	init_data(t_philo *ph, t_data *data)
 {
 	int	i;
@@ -80,6 +93,9 @@ void	init_data(t_philo *ph, t_data *data)
 			ph[i].r_fork = ph[i + 1].l_fork;
 		i++;
 	}
+	i = 0;
+	// while (data->n_of_philo > i)
+	// 	swap_forks(&ph[i++]);
 }
 
 void	destroy_mtx(t_philo *ph, t_data *data)
