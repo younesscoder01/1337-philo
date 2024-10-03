@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/02 09:57:18 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:28:58 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void					print_fork(t_philo *philo);
 void					print_sleep(t_philo *philo);
 void					eat(t_philo *philo);
 void					destroy_mtx(t_philo *ph, t_data *data);
-void					init_data(t_philo *ph, t_data *data);
-void					init_forks(t_philo *ph, t_data *data);
+void	init_data(t_philo *ph, t_data *data, t_mt *mtx);
+void	init_forks(t_philo *ph, t_data *data, t_mt *mtx);
 void					init_mtx(t_philo *ph, t_data *data);
+void ft_usleep(time_t time);
 #endif

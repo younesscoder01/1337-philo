@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:07:45 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/02 09:23:37 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:32:52 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	init_mtx(t_philo *ph, t_data *data)
 	}
 }
 
-void	init_forks(t_philo *ph, t_data *data)
+void	init_forks(t_philo *ph, t_data *data, t_mt *mtx)
 {
 	int		i;
 	bool	*died;
@@ -50,32 +50,19 @@ void	init_forks(t_philo *ph, t_data *data)
 	while (data->n_of_philo > i)
 	{
 		ph[i].died = died;
-		ph[i].l_fork = malloc(sizeof(t_mt));
-		pthread_mutex_init(ph[i].l_fork, 0);
+		pthread_mutex_init(&mtx[i], 0);
+		ph[i].l_fork = &mtx[i];
 		i++;
 	}
 }
 
-void swap_forks(t_philo *ph)
-{
-	t_mt *temp;
-
-	temp = NULL;
-	if (ph->id % 2 == 0)
-	{
-		temp = ph->r_fork;
-		ph->r_fork = ph->l_fork;
-		ph->l_fork = temp;
-	}
-}
-
-void	init_data(t_philo *ph, t_data *data)
+void	init_data(t_philo *ph, t_data *data, t_mt *mtx)
 {
 	int	i;
 
 	i = 0;
 	init_mtx(ph, data);
-	init_forks(ph, data);
+	init_forks(ph, data, mtx);
 	while (data->n_of_philo > i)
 	{
 		ph[i].id = i + 1;
@@ -93,9 +80,6 @@ void	init_data(t_philo *ph, t_data *data)
 			ph[i].r_fork = ph[i + 1].l_fork;
 		i++;
 	}
-	i = 0;
-	// while (data->n_of_philo > i)
-	// 	swap_forks(&ph[i++]);
 }
 
 void	destroy_mtx(t_philo *ph, t_data *data)
@@ -103,10 +87,9 @@ void	destroy_mtx(t_philo *ph, t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->n_of_philo > i)
+	while (data->n_of_philo - 1 > i)
 	{
 		pthread_mutex_destroy(ph[i].l_fork);
-		free(ph[i].l_fork);
 		i++;
 	}
 	pthread_mutex_destroy(ph[0].died_m);

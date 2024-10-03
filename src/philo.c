@@ -6,11 +6,20 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/02 10:22:47 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:09:55 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void ft_usleep(time_t time)
+{
+	time_t start;
+
+	start = get_time_millsec();
+	while (get_time_millsec() - start < time)
+		usleep(100);
+}
 
 int	check_full(t_philo *philo)
 {
@@ -49,16 +58,27 @@ void	*checker(void *ph)
 			}
 			i++;
 		}
+		ft_usleep(1);
 	}
 	return (NULL);
 }
 
 void	get_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	print_fork(philo);
-	pthread_mutex_lock(philo->r_fork);
-	print_fork(philo);
+	// if (philo->id % 2 == 0)
+	// {
+	// 	pthread_mutex_lock(philo->r_fork);
+	// 	print_fork(philo);
+	// 	pthread_mutex_lock(philo->l_fork);
+	// 	print_fork(philo);
+	// }
+	// else
+	// {
+		pthread_mutex_lock(philo->l_fork);
+		print_fork(philo);
+		pthread_mutex_lock(philo->r_fork);
+		print_fork(philo);
+	// }
 }
 
 void	put_forks(t_philo *philo)
@@ -73,17 +93,17 @@ void	*routine(void *ph)
 	t_philo	*philo;
 
 	philo = (t_philo *)ph;
+	if (philo->n_of_philo == 1)
+	{
+		printf("%s%ld %i has taken a fork\n", YELLOW,
+			get_time_millsec() - philo->start_t, get_id(philo));
+		sleep_m(philo->t_to_die);
+		return (NULL);
+	}
+	if (get_id(philo) % 2 == 0)
+		ft_usleep(1);
 	while (!check_died(philo) && check_meals(philo))
 	{
-		if (get_id(philo) % 2 == 0)
-			usleep(1000);
-		if (philo->n_of_philo == 1)
-		{
-			printf("%s%ld %i has taken a fork\n", YELLOW,
-				get_time_millsec() - philo->start_t, get_id(philo));
-			sleep_m(philo->t_to_die);
-			break ;
-		}
 		get_forks(philo);
 		eat(philo);
 		put_forks(philo);
@@ -99,6 +119,7 @@ int	main(int argc, char const *argv[])
 {
 	t_data		*data;
 	t_philo		ph[200];
+	t_mt		mtx[200];
 	pthread_t	checker_t;
 	int			i;
 
@@ -110,9 +131,9 @@ int	main(int argc, char const *argv[])
 	data = set_values(argv, argc);
 	if (data == NULL)
 		return (ft_err("SOME OF THE ARGS ARE 0"), 3);
-	init_data(ph, data);
+	init_data(ph, data, mtx);
 	while (ph[0].n_of_philo > ++i)
-		pthread_create(&ph[i].thread, 0, routine, &ph[i]);
+			pthread_create(&ph[i].thread, 0, routine, &ph[i]);
 	pthread_create(&checker_t, 0, &checker, &ph);
 	pthread_join(checker_t, 0);
 	i = 0;
