@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/03 11:28:58 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:42:30 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@
 
 typedef pthread_mutex_t	t_mt;
 
-#define RED "\033[0;31m"
-#define GREEN "\033[0;32m"
-#define YELLOW "\033[0;33m"
-#define WHITE "\033[0;37m"
-#define BLUE "\033[0;34m"
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define WHITE "\033[0;37m"
+# define BLUE "\033[0;34m"
+
 typedef struct s_data
 {
 	int					n_of_philo;
@@ -50,6 +51,7 @@ typedef struct s_philo
 	int					n_must_eat;
 	int					full;
 	bool				*died;
+	t_mt				*print;
 	t_mt				*died_m;
 	t_mt				*id_m;
 	t_mt				*last_meal_m;
@@ -66,6 +68,7 @@ typedef struct s_mxt
 	t_mt				*id_m;
 	t_mt				*last_meal_m;
 	t_mt				*full_m;
+	t_mt				*print;
 }						t_mxt;
 
 long					ft_ato_num(const char *nptr);
@@ -83,9 +86,8 @@ time_t					get_last_meal(t_philo *philo);
 void					print_fork(t_philo *philo);
 void					print_sleep(t_philo *philo);
 void					eat(t_philo *philo);
-void					destroy_mtx(t_philo *ph, t_data *data);
-void	init_data(t_philo *ph, t_data *data, t_mt *mtx);
-void	init_forks(t_philo *ph, t_data *data, t_mt *mtx);
-void					init_mtx(t_philo *ph, t_data *data);
-void ft_usleep(time_t time);
+void					destroy_mtx(t_philo *ph, t_data *data, t_mt *mtx);
+void					init_data(t_philo *ph, t_data *data, t_mt *mtx);
+void					init_mtx(t_philo *ph, t_data *data, int i);
+void					ft_usleep(time_t time);
 #endif

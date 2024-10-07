@@ -6,13 +6,13 @@
 #    By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/01 16:16:38 by ysahraou          #+#    #+#              #
-#    Updated: 2024/10/03 11:46:34 by ysahraou         ###   ########.fr        #
+#    Updated: 2024/10/07 18:03:58 by ysahraou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ====================================== variables ====================================== #
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g3 #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread  #-fsanitize=thread -g3
 NAME = philo
 SRC = src/philo.c src/check_args.c src/err.c src/init_and_free.c src/prints.c  src/get_rsrc.c
 OBJ = $(SRC:.c=.o)
