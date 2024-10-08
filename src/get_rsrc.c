@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:27:21 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/02 09:56:30 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:40:16 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,15 @@ time_t	get_start(t_philo *philo)
 	return (ret);
 }
 
-void	sleep_m(time_t num)
+void	ft_usleep(time_t time)
 {
-	usleep(num * 1000);
+	time_t	start;
+
+	start = get_time_millsec();
+	if (time - 10 > 0)
+		usleep((time - 10) * 1000);
+	while (get_time_millsec() - start < time)
+		usleep(100);
 }
 
 int	get_id(t_philo *philo)

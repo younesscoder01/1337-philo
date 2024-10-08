@@ -6,22 +6,11 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/07 18:18:06 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:06:18 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
-void	ft_usleep(time_t time)
-{
-	time_t	start;
-
-	start = get_time_millsec();
-	if (time - 10 > 0)
-		usleep(time - 10);
-	while (get_time_millsec() - start < time - 10)
-		usleep(100);
-}
 
 int	check_full(t_philo *philo)
 {
@@ -55,44 +44,13 @@ void	*checker(void *ph)
 				printf("%s[%06ld] %i died 💀\n", RED, get_time_millsec()
 					- get_start(&philo[i]), get_id(&philo[i]));
 				*philo[i].died = 1;
-				pthread_mutex_unlock(philo->died_m);
-				return (NULL);
+				return (pthread_mutex_unlock(philo->died_m), NULL);
 			}
 			i++;
 		}
 		ft_usleep(1);
 	}
 	return (NULL);
-}
-
-void	left_right(t_philo *philo)
-{
-	pthread_mutex_lock(philo->l_fork);
-	print_fork(philo);
-	pthread_mutex_lock(philo->r_fork);
-	print_fork(philo);
-}
-
-void	right_left(t_philo *philo)
-{
-	pthread_mutex_lock(philo->r_fork);
-	print_fork(philo);
-	pthread_mutex_lock(philo->l_fork);
-	print_fork(philo);
-}
-
-void	get_forks(t_philo *philo)
-{
-	if (philo->r_fork > philo->l_fork)
-		left_right(philo);
-	else
-		right_left(philo);
-}
-
-void	put_forks(t_philo *philo)
-{
-	pthread_mutex_unlock(philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
 }
 
 void	*routine(void *ph)
@@ -102,10 +60,7 @@ void	*routine(void *ph)
 	philo = (t_philo *)ph;
 	if (philo->n_of_philo == 1)
 	{
-		pthread_mutex_lock(philo->print);
-		printf("%s[%06ld] %i has taken a fork 🍴\n", YELLOW, get_time_millsec()
-			- philo->start_t, get_id(philo));
-		pthread_mutex_unlock(philo->print);
+		print_fork(philo);
 		ft_usleep(philo->t_to_die);
 		return (NULL);
 	}
@@ -140,20 +95,11 @@ void	thread_create(t_philo *ph, int i, pthread_t checker_t)
 		printf("Error\n");
 }
 
-void	allocat(t_philo **ph, t_data *data, t_mt **mtx)
-{
-	int	i;
-
-	i = 0;
-	*ph = malloc(sizeof(t_philo) * data->n_of_philo);
-	*mtx = malloc(sizeof(t_mt) * data->n_of_philo);
-}
-
 int	main(int argc, char const *argv[])
 {
 	t_data		*data;
-	t_philo		*ph;
-	t_mt		*mtx;
+	t_philo		ph[200];
+	t_mt		mtx[200];
 	pthread_t	checker_t;
 	int			i;
 
@@ -165,8 +111,7 @@ int	main(int argc, char const *argv[])
 		return (ft_err("THE ARGS IS UNCORRECT"), 2);
 	data = set_values(argv, argc);
 	if (data == NULL)
-		return (ft_err("SOME OF THE ARGS ARE 0"), 3);
-	allocat(&ph, data, &mtx);
+		return (3);
 	init_data(ph, data, mtx);
 	thread_create(ph, i, checker_t);
 	pthread_join(checker_t, 0);
