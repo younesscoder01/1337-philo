@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/08 12:06:18 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:04:44 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	*routine(void *ph)
 		put_forks(philo);
 		print_sleep(philo);
 		pthread_mutex_lock(philo->print);
-		if (!check_died(philo) && check_meals(philo))
+		if (check_meals(philo) && !check_died(philo))
 			printf("%s[%06ld] %i is thinking 💭\n", BLUE, get_time_millsec()
 				- get_start(philo), get_id(philo));
 		pthread_mutex_unlock(philo->print);
@@ -85,14 +85,13 @@ void	*routine(void *ph)
 void	thread_create(t_philo *ph, int i, pthread_t checker_t)
 {
 	i = 0;
+	(void)checker_t;
 	while (ph[0].n_of_philo > i)
 	{
 		if (pthread_create(&ph[i].thread, 0, routine, &ph[i]))
 			printf("Error\n");
 		i++;
 	}
-	if (pthread_create(&checker_t, 0, &checker, &ph))
-		printf("Error\n");
 }
 
 int	main(int argc, char const *argv[])
@@ -114,11 +113,11 @@ int	main(int argc, char const *argv[])
 		return (3);
 	init_data(ph, data, mtx);
 	thread_create(ph, i, checker_t);
+	if (pthread_create(&checker_t, 0, &checker, &ph))
+		printf("Error\n");
 	pthread_join(checker_t, 0);
 	i = 0;
 	while (ph[0].n_of_philo > i)
 		pthread_join(ph[i++].thread, 0);
-	destroy_mtx(ph, data, mtx);
-	free(data);
-	return (0);
+	return (destroy_mtx(ph, data), free(data), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 18:07:45 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/08 11:50:15 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:10:38 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	init_data(t_philo *ph, t_data *data, t_mt *mtx)
 	}
 }
 
-void	destroy_mtx(t_philo *ph, t_data *data, t_mt *mtx)
+void	destroy_mtx(t_philo *ph, t_data *data)
 {
 	int	i;
 
@@ -105,6 +105,4 @@ void	destroy_mtx(t_philo *ph, t_data *data, t_mt *mtx)
 	free(ph[0].last_meal_m);
 	free(ph[0].full_m);
 	free(ph[0].print);
-	free(mtx);
-	free(ph);
 }
