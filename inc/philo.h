@@ -91,8 +91,6 @@ void					destroy_mtx(t_philo *ph, t_data *data);
 void					init_data(t_philo *ph, t_data *data, t_mt *mtx);
 void					init_mtx(t_philo *ph, t_data *data, int i);
 void					ft_usleep(time_t time);
-void					left_right(t_philo *philo);
-void					right_left(t_philo *philo);
 void					get_forks(t_philo *philo);
 void					put_forks(t_philo *philo);
 void					*allocat(t_philo **ph, t_data *data, t_mt **mtx);

@@ -88,7 +88,7 @@ void	destroy_mtx(t_philo *ph, t_data *data)
 	i = 0;
 	while (data->n_of_philo - 1 > i)
 	{
-		pthread_mutex_destroy(ph[i].l_fork);
+		pthread_mutex_destroy(ph[i].r_fork);
 		i++;
 	}
 	pthread_mutex_destroy(ph[0].died_m);
@@ -97,7 +97,6 @@ void	destroy_mtx(t_philo *ph, t_data *data)
 	pthread_mutex_destroy(ph[0].last_meal_m);
 	pthread_mutex_destroy(ph[0].full_m);
 	pthread_mutex_destroy(ph[0].print);
-	i = 0;
 	free(ph[0].died_m);
 	free(ph[0].died);
 	free(ph[0].start);

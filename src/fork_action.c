@@ -12,28 +12,12 @@
 
 #include "../inc/philo.h"
 
-void	left_right(t_philo *philo)
-{
-	pthread_mutex_lock(philo->l_fork);
-	print_fork(philo);
-	pthread_mutex_lock(philo->r_fork);
-	print_fork(philo);
-}
-
-void	right_left(t_philo *philo)
-{
-	pthread_mutex_lock(philo->r_fork);
-	print_fork(philo);
-	pthread_mutex_lock(philo->l_fork);
-	print_fork(philo);
-}
-
 void	get_forks(t_philo *philo)
 {
-	if (philo->r_fork > philo->l_fork)
-		left_right(philo);
-	else
-		right_left(philo);
+	pthread_mutex_lock(philo->r_fork);
+	print_fork(philo);
+	pthread_mutex_lock(philo->l_fork);
+	print_fork(philo);
 }
 
 void	put_forks(t_philo *philo)
