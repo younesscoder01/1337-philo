@@ -41,14 +41,14 @@ void	*checker(void *ph)
 				- get_last_meal(&philo[i]) >= philo->t_to_die)
 			{
 				pthread_mutex_lock(philo->died_m);
+				*philo[i].died = 1;
+				pthread_mutex_unlock(philo->died_m);
 				printf("%s[%06ld] %i died 💀\n", RED, get_time_millsec()
 					- get_start(&philo[i]), get_id(&philo[i]));
-				*philo[i].died = 1;
-				return (pthread_mutex_unlock(philo->died_m), NULL);
+				return (NULL);
 			}
 			i++;
 		}
-		ft_usleep(1);
 	}
 	return (NULL);
 }
@@ -68,16 +68,13 @@ void	*routine(void *ph)
 		ft_usleep(50);
 	while (!check_died(philo) && check_meals(philo))
 	{
-		get_forks(philo);
 		eat(philo);
-		put_forks(philo);
 		print_sleep(philo);
 		pthread_mutex_lock(philo->print);
 		if (check_meals(philo) && !check_died(philo))
 			printf("%s[%06ld] %i is thinking 💭\n", BLUE, get_time_millsec()
 				- get_start(philo), get_id(philo));
 		pthread_mutex_unlock(philo->print);
-		usleep(500);
 	}
 	return (NULL);
 }
@@ -112,9 +109,9 @@ int	main(int argc, char const *argv[])
 	if (data == NULL)
 		return (3);
 	init_data(ph, data, mtx);
-	thread_create(ph, i, checker_t);
 	if (pthread_create(&checker_t, 0, &checker, &ph))
 		printf("Error\n");
+	thread_create(ph, i, checker_t);
 	pthread_join(checker_t, 0);
 	i = 0;
 	while (ph[0].n_of_philo > i)

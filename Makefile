@@ -12,10 +12,9 @@
 
 # ====================================== variables ====================================== #
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread  -fsanitize=thread -g3
+CFLAGS = -Wall -Wextra -Werror -pthread  #-fsanitize=thread -g3
 NAME = philo
-SRC = src/philo.c src/check_args.c src/err.c src/init_and_free.c src/prints.c  src/get_rsrc.c \
-		src/fork_action.c
+SRC = src/philo.c src/check_args.c src/err.c src/init_and_free.c src/prints.c  src/get_rsrc.c
 OBJ = $(SRC:.c=.o)
 RM = rm -rf
 # ======================================================================================= #

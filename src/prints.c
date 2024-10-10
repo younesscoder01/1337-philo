@@ -63,6 +63,10 @@ int	check_meals(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
+	pthread_mutex_lock(philo->r_fork);
+	print_fork(philo);
+	pthread_mutex_lock(philo->l_fork);
+	print_fork(philo);
 	pthread_mutex_lock(philo->print);
 	if (check_meals(philo) && !check_died(philo))
 	{
@@ -76,6 +80,8 @@ void	eat(t_philo *philo)
 		philo->full++;
 		pthread_mutex_unlock(philo->full_m);
 		ft_usleep(philo->t_to_eat);
+		pthread_mutex_unlock(philo->r_fork);
+		pthread_mutex_unlock(philo->l_fork);
 	}
 	else
 		pthread_mutex_unlock(philo->print);
