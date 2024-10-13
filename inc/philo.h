@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/08 15:10:46 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/13 10:00:43 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int						check_died(t_philo *philo);
 int						check_meals(t_philo *philo);
 void					ft_err_args(int ac);
 void					ft_err(char *str);
-void					ft_usleep(time_t time);
 time_t					get_time_millsec(void);
 time_t					get_start(t_philo *philo);
 int						get_id(t_philo *philo);
@@ -90,8 +89,10 @@ void					eat(t_philo *philo);
 void					destroy_mtx(t_philo *ph, t_data *data);
 void					init_data(t_philo *ph, t_data *data, t_mt *mtx);
 void					init_mtx(t_philo *ph, t_data *data, int i);
-void					ft_usleep(time_t time);
+void					ft_usleep(time_t time, t_philo *philo);
 void					get_forks(t_philo *philo);
 void					put_forks(t_philo *philo);
-void					*allocat(t_philo **ph, t_data *data, t_mt **mtx);
+void					put_forks(t_philo *philo);
+void					get_forks(t_philo *philo);
+void					allocate(t_philo **ph, t_mt **mtx, t_data *data);
 #endif

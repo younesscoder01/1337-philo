@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:29:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/08 15:37:31 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/12 18:50:31 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_sleep(t_philo *philo)
 		printf("%s[%06ld] %i is sleeping 💤\n", WHITE, get_time_millsec()
 			- philo->start_t, get_id(philo));
 		pthread_mutex_unlock(philo->print);
-		ft_usleep(philo->t_to_sleep);
+		ft_usleep(philo->t_to_sleep, philo);
 	}
 	else
 		pthread_mutex_unlock(philo->print);
@@ -63,10 +63,7 @@ int	check_meals(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->r_fork);
-	print_fork(philo);
-	pthread_mutex_lock(philo->l_fork);
-	print_fork(philo);
+	get_forks(philo);
 	pthread_mutex_lock(philo->print);
 	if (check_meals(philo) && !check_died(philo))
 	{
@@ -79,10 +76,9 @@ void	eat(t_philo *philo)
 		pthread_mutex_lock(philo->full_m);
 		philo->full++;
 		pthread_mutex_unlock(philo->full_m);
-		ft_usleep(philo->t_to_eat);
-		pthread_mutex_unlock(philo->r_fork);
-		pthread_mutex_unlock(philo->l_fork);
+		ft_usleep(philo->t_to_eat, philo);
 	}
 	else
 		pthread_mutex_unlock(philo->print);
+	put_forks(philo);
 }

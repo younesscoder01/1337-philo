@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/08 16:04:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/13 10:21:37 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void	*routine(void *ph)
 	if (philo->n_of_philo == 1)
 	{
 		print_fork(philo);
-		ft_usleep(philo->t_to_die);
+		ft_usleep(philo->t_to_die, philo);
 		return (NULL);
 	}
 	if (get_id(philo) % 2 == 0)
-		ft_usleep(50);
+		ft_usleep(2, philo);
 	while (!check_died(philo) && check_meals(philo))
 	{
 		eat(philo);
@@ -75,6 +75,8 @@ void	*routine(void *ph)
 			printf("%s[%06ld] %i is thinking 💭\n", BLUE, get_time_millsec()
 				- get_start(philo), get_id(philo));
 		pthread_mutex_unlock(philo->print);
+		if (philo->t_to_eat + philo->t_to_sleep + 150 < philo->t_to_die)
+			ft_usleep(150, philo);
 	}
 	return (NULL);
 }
