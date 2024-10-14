@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:16:32 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/10/13 10:21:37 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:53:47 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	*routine(void *ph)
 		pthread_mutex_unlock(philo->print);
 		if (philo->t_to_eat + philo->t_to_sleep + 150 < philo->t_to_die)
 			ft_usleep(150, philo);
+		else
+			ft_usleep(1, philo);	
 	}
 	return (NULL);
 }
